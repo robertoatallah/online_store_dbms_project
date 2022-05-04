@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("connection.php");
 $sql = "SELECT * FROM carts_contains_products;";
 $result = $mysqli->query($sql);
@@ -9,7 +10,7 @@ $count = mysqli_num_rows($result);
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Boutique | Ecommerce bootstrap template</title>
+    <title>La Boutique Beirut | Ecommerce bootstrap template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -36,7 +37,7 @@ $count = mysqli_num_rows($result);
       <!-- navbar-->
       <header class="header bg-white">
         <div class="container px-lg-3">
-          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">Boutique</span></a>
+          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">La Boutique Beirut</span></a>
             <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto">
@@ -46,17 +47,24 @@ $count = mysqli_num_rows($result);
                 <li class="nav-item">
                   <!-- Link--><a class="nav-link" href="shop.php">Shop</a>
                 </li>
-                <li class="nav-item">
-                  <!-- Link--><a class="nav-link" href="detail.php">Product detail</a>
-                </li>
-                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="index.php">Homepage</a><a class="dropdown-item border-0 transition-link" href="shop.php">Category</a><a class="dropdown-item border-0 transition-link" href="detail.php">Product detail</a><a class="dropdown-item border-0 transition-link" href="cart.php">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.php">Checkout</a></div>
-                </li>
+              
+                
               </ul>
               <ul class="navbar-nav ms-auto">               
+              <?php
+              if ($_SESSION["user_id"] != null) {
+                ?>            
                 <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal"><?php echo "(". $count . ")"?></small></a></li>
-                
-                <li class="nav-item"><a class="nav-link" href="#!"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
+                <?php }?>
+                <?php 
+                if ($_SESSION["user_id"] == null) {
+                ?>
+                <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
+                <?php }else{ ?>
+                  <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
+                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="signOut.php">Sign Out</a></div>
+                  </li>
+                <?php }?>
               </ul>
             </div>
           </nav>
@@ -153,7 +161,7 @@ $count = mysqli_num_rows($result);
                   ?>
                     <tr>
                       <th class="ps-0 py-3 border-light" scope="row">
-                        <div class="d-flex align-items-center"><a class="reset-anchor d-block animsition-link" href="detail.php"><img src="img/product-detail-3.jpg" alt="..." width="70"/></a>
+                        <div class="d-flex align-items-center"><a class="reset-anchor d-block animsition-link" href="detail.php"><img src=<?php echo $product['picture_url']?> alt="..." width="70"/></a>
                           <div class="ms-3"><strong class="h6"><a class="reset-anchor animsition-link" href="detail.php"><?php echo $product['name']?></a></strong></div>
                         </div>
                       </th>

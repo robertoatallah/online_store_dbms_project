@@ -18,12 +18,19 @@ $count = mysqli_num_rows($result);
   
 if($count == 1){  
     $_SESSION["user_id"] = $row['id'];
+    $user_id = $_SESSION["user_id"];
     $_SESSION["user_name"] = $row['first_name'] . " " . $row['last_name'];
-    $query = $mysqli->prepare("INSERT INTO carts ( user_id ) VALUES(?)");
-    $query->bind_param("i", $_SESSION["user_id"]); 
-    $query->execute();
-    $query->close();
-    $sql = " select * from carts order by id desc limit 1; ";  
+    $sql = "select * from carts where user_id = '$user_id'";  
+    $result = mysqli_query($con, $sql);  
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
+    $count = mysqli_num_rows($result); 
+    if ($count == 0) {
+        $query = $mysqli->prepare("INSERT INTO carts ( user_id ) VALUES(?)");
+        $query->bind_param("i", $_SESSION["user_id"]); 
+        $query->execute();
+        $query->close();
+    }
+    $sql = " select * from carts where user_id = '$user_id' ";  
     $result = mysqli_query($con, $sql);  
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $_SESSION["cart_id"] = $row['id'];

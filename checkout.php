@@ -1,9 +1,16 @@
+<?php
+session_start();
+include("connection.php");
+$sql = "SELECT * FROM carts_contains_products;";
+$result = $mysqli->query($sql);
+$count = mysqli_num_rows($result); 
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Boutique | Ecommerce bootstrap template</title>
+    <title>La Boutique Beirut | Ecommerce bootstrap template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -30,7 +37,7 @@
       <!-- navbar-->
       <header class="header bg-white">
         <div class="container px-lg-3">
-          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">Boutique</span></a>
+          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">La Boutique Beirut</span></a>
             <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto">
@@ -40,17 +47,24 @@
                 <li class="nav-item">
                   <!-- Link--><a class="nav-link" href="shop.php">Shop</a>
                 </li>
-                <li class="nav-item">
-                  <!-- Link--><a class="nav-link" href="detail.php">Product detail</a>
-                </li>
-                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="index.php">Homepage</a><a class="dropdown-item border-0 transition-link" href="shop.php">Category</a><a class="dropdown-item border-0 transition-link" href="detail.php">Product detail</a><a class="dropdown-item border-0 transition-link" href="cart.php">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.php">Checkout</a></div>
-                </li>
+               
+                
               </ul>
               <ul class="navbar-nav ms-auto">               
-                <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal">(2)</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="#!"> <i class="far fa-heart me-1"></i><small class="text-gray fw-normal"> (0)</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="#!"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
+              <?php
+              if ($_SESSION["user_id"] != null) {
+                ?>            
+                <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal"><?php echo "(". $count . ")"?></small></a></li>
+                <?php }?>
+                <?php 
+                if ($_SESSION["user_id"] == null) {
+                ?>
+                <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
+                <?php }else{ ?>
+                  <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
+                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="signOut.php">Sign Out</a></div>
+                  </li>
+                <?php }?>
               </ul>
             </div>
           </nav>
@@ -117,110 +131,51 @@
         </section>
         <section class="py-5">
           <!-- BILLING ADDRESS-->
-          <h2 class="h5 text-uppercase mb-4">Billing details</h2>
+          <h2 class="h5 text-uppercase mb-4">Adress and Billing details</h2>
           <div class="row">
             <div class="col-lg-8">
-              <form action="#">
+              <form method="POST" action="add_address.php">
                 <div class="row gy-3">
                   <div class="col-lg-6">
-                    <label class="form-label text-sm text-uppercase" for="firstName">First name </label>
-                    <input class="form-control form-control-lg" type="text" id="firstName" placeholder="Enter your first name">
+                    <input class="form-control form-control-lg" type="text" name="firstName"id="firstName" placeholder="Enter your first name">
                   </div>
                   <div class="col-lg-6">
                     <label class="form-label text-sm text-uppercase" for="lastName">Last name </label>
-                    <input class="form-control form-control-lg" type="text" id="lastName" placeholder="Enter your last name">
+                    <input class="form-control form-control-lg" type="text" name="lastName"id="lastName" placeholder="Enter your last name">
                   </div>
-                  <div class="col-lg-6">
-                    <label class="form-label text-sm text-uppercase" for="email">Email address </label>
-                    <input class="form-control form-control-lg" type="email" id="email" placeholder="e.g. Jason@example.com">
-                  </div>
+                  
                   <div class="col-lg-6">
                     <label class="form-label text-sm text-uppercase" for="phone">Phone number </label>
-                    <input class="form-control form-control-lg" type="tel" id="phone" placeholder="e.g. +02 245354745">
+                    <input class="form-control form-control-lg" type="tel" name="phone"id="phone" placeholder="e.g. +02 245354745">
                   </div>
                   <div class="col-lg-6">
                     <label class="form-label text-sm text-uppercase" for="company">Company name (optional) </label>
-                    <input class="form-control form-control-lg" type="text" id="company" placeholder="Your company name">
+                    <input class="form-control form-control-lg" type="text" name="company"id="company" placeholder="Your company name">
                   </div>
                   <div class="col-lg-6 form-group">
                     <label class="form-label text-sm text-uppercase" for="country">Country</label>
-                    <select class="country" id="country" data-customclass="form-control form-control-lg rounded-0">
+                    <select class="country" name="country"id="country" data-customclass="form-control form-control-lg rounded-0">
                       <option value>Choose your country</option>
                     </select>
                   </div>
                   <div class="col-lg-12">
                     <label class="form-label text-sm text-uppercase" for="address">Address line 1 </label>
-                    <input class="form-control form-control-lg" type="text" id="address" placeholder="House number and street name">
+                    <input class="form-control form-control-lg" type="text" name="address"id="address" placeholder="House number and street name">
                   </div>
                   <div class="col-lg-12">
                     <label class="form-label text-sm text-uppercase" for="addressalt">Address line 2 </label>
-                    <input class="form-control form-control-lg" type="text" id="addressalt" placeholder="Apartment, Suite, Unit, etc (optional)">
+                    <input class="form-control form-control-lg" type="text" name="addressalt"id="addressalt" placeholder="Apartment, Suite, Unit, etc (optional)">
                   </div>
                   <div class="col-lg-6">
-                    <label class="form-label text-sm text-uppercase" for="city">Town/City </label>
-                    <input class="form-control form-control-lg" type="text" id="city">
+                    <label class="form-label text-sm text-uppercase" for="city"for="city">Town/City </label>
+                    <input class="form-control form-control-lg" type="text" id="city"name="city">
                   </div>
                   <div class="col-lg-6">
-                    <label class="form-label text-sm text-uppercase" for="state">State/County </label>
-                    <input class="form-control form-control-lg" type="text" id="state">
+                    <label class="form-label text-sm text-uppercase" for="state"for="state">State/County </label>
+                    <input class="form-control form-control-lg" type="text" name="state"id="state">
                   </div>
-                  <div class="col-lg-6">
-                    <button class="btn btn-link text-dark p-0 shadow-0" type="button" data-bs-toggle="collapse" data-bs-target="#alternateAddress">
-                      <div class="form-check">
-                        <input class="form-check-input" id="alternateAddressCheckbox" type="checkbox">
-                        <label class="form-check-label" for="alternateAddressCheckbox">Alternate billing address</label>
-                      </div>
-                    </button>
-                  </div>
-                  <div class="collapse" id="alternateAddress">
-                    <div class="row gy-3">
-                      <div class="col-12 mt-4">
-                        <h2 class="h4 text-uppercase mb-4">Alternative billing details</h2>
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="firstName2">First name </label>
-                        <input class="form-control form-control-lg" type="text" id="firstName2" placeholder="Enter your first name">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="lastName2">Last name </label>
-                        <input class="form-control form-control-lg" type="text" id="lastName2" placeholder="Enter your last name">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="email2">Email address </label>
-                        <input class="form-control form-control-lg" type="email" id="email2" placeholder="e.g. Jason@example.com">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="phone2">Phone number </label>
-                        <input class="form-control form-control-lg" type="tel" id="phone2" placeholder="e.g. +02 245354745">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="company2">Company name (optional) </label>
-                        <input class="form-control form-control-lg" type="text" id="company2" placeholder="Your company name">
-                      </div>
-                      <div class="col-lg-6 form-group">
-                        <label class="form-label text-sm text-uppercase" for="countryAlt">Country</label>
-                        <select class="country" id="countryAlt" data-customclass="form-control form-control-lg rounded-0">
-                          <option value>Choose your country</option>
-                        </select>
-                      </div>
-                      <div class="col-lg-12">
-                        <label class="form-label text-sm text-uppercase" for="address2">Address line 1 </label>
-                        <input class="form-control form-control-lg" type="text" id="address2" placeholder="House number and street name">
-                      </div>
-                      <div class="col-lg-12">
-                        <label class="form-label text-sm text-uppercase" for="addressalt2">Address line 2 </label>
-                        <input class="form-control form-control-lg" type="text" id="addressalt2" placeholder="Apartment, Suite, Unit, etc (optional)">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="city2">Town/City </label>
-                        <input class="form-control form-control-lg" type="text" id="city2">
-                      </div>
-                      <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="state2">State/County </label>
-                        <input class="form-control form-control-lg" type="text" id="state2">
-                      </div>
-                    </div>
-                  </div>
+                  
+                  
                   <div class="col-lg-12 form-group">
                     <button class="btn btn-dark" type="submit">Place order</button>
                   </div>
@@ -233,11 +188,24 @@
                 <div class="card-body">
                   <h5 class="text-uppercase mb-4">Your order</h5>
                   <ul class="list-unstyled mb-0">
-                    <li class="d-flex align-items-center justify-content-between"><strong class="small fw-bold">Red digital smartwatch</strong><span class="text-muted small">$250</span></li>
+                  <?php   // LOOP TILL END OF DATA 
+  
+                    while($rows=$result->fetch_assoc())
+                    {
+                
+                      $products_id = $rows['products_id'];
+                      $carts_id = $rows['carts_id'];
+                      $sql2 = "SELECT * FROM products WHERE id='$products_id';";
+                      $result2 = $mysqli->query($sql2);
+                      $product = $result2->fetch_assoc();
+                       
+                  ?>
+                    <li class="d-flex align-items-center justify-content-between"><strong class="small fw-bold"><?php echo $product['name']?></strong><span class="text-muted small"><?php echo $product['price']?></span></li>
                     <li class="border-bottom my-2"></li>
-                    <li class="d-flex align-items-center justify-content-between"><strong class="small fw-bold">Gray Nike running shoes</strong><span class="text-muted small">$351</span></li>
-                    <li class="border-bottom my-2"></li>
-                    <li class="d-flex align-items-center justify-content-between"><strong class="text-uppercase small fw-bold">Total</strong><span>$601</span></li>
+                    <?php
+                    }
+                  ?>
+                    <li class="d-flex align-items-center justify-content-between"><strong class="text-uppercase small fw-bold">Total</strong><span><?php echo $_SESSION['sum_total']."$"?></span></li>
                   </ul>
                 </div>
               </div>

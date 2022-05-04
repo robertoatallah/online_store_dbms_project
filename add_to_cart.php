@@ -1,6 +1,10 @@
 <?php
 session_start();
 include("connection.php");  
+if ($_SESSION["user_id"] == null) {
+  header("Location: login.php");
+  exit();
+}
 $id = $_POST['id'];
 $cart_id =  $_SESSION["cart_id"];
 $quantity = 1;

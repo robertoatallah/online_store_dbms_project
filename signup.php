@@ -22,29 +22,7 @@ session_start();
                   transparent 100%);
             }
         
-            #radius-shape-1 {
-              height: 220px;
-              width: 220px;
-              top: -60px;
-              left: -130px;
-              background: radial-gradient(#44006b, #ad1fff);
-              overflow: hidden;
-            }
-        
-            #radius-shape-2 {
-              border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-              bottom: -60px;
-              right: -110px;
-              width: 300px;
-              height: 300px;
-              background: radial-gradient(#44006b, #ad1fff);
-              overflow: hidden;
-            }
-        
-            .bg-glass {
-              background-color: hsla(0, 0%, 100%, 0.9) !important;
-              backdrop-filter: saturate(200%) blur(25px);
-            }
+            
           </style>
     </head>
     <body>
@@ -56,16 +34,10 @@ session_start();
     <div class="row gx-lg-5 align-items-center mb-5">
       <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
         <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
-          The best deals <br />
-          <span style="color: hsl(218, 81%, 75%)">For your Second Hand Clothes</span>
+          The brand for the youth <br />
+          <span style="color: hsl(218, 81%, 75%)">by the youth</span>
         </h1>
-        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
-          The Thrift Shop is a Lebanon based online store that provide you with high-quality second hand clothes at competitive prices.
-          As one of the few online resale platforms in Lebanon for women’s and kids’ apparel, shoes, and accessories, our mission is to inspire
-           a new generation of shoppers to think secondhand clothes first. You can shop like-new and used women’s clothes and kids’ clothes at up 
-           to 90% off estimated retail at our online thrift store and consignment shop. From Gap to Gucci, we have all your favorite brands
-            (including H&ampM, Zara, Mango & more!) for less. Plus, enjoy thousands of arrivals every day. Happy thrifting!
-        </p>
+        
       </div>
 
       <div class="col-lg-6 mb-5 mb-lg-0 position-relative">

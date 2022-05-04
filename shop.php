@@ -1,5 +1,11 @@
 <?php
+session_start();
 include("connection.php");
+$sql = "SELECT * FROM carts_contains_products;";
+$result = $mysqli->query($sql);
+$count = mysqli_num_rows($result); 
+?>
+<?php
 $sql = "SELECT * FROM products;";
 $result = $mysqli->query($sql);
 $mysqli->close(); 
@@ -9,7 +15,7 @@ $mysqli->close();
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Boutique | Ecommerce bootstrap template</title>
+    <title>La Boutique Beirut | Ecommerce bootstrap template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -36,7 +42,7 @@ $mysqli->close();
       <!-- navbar-->
       <header class="header bg-white">
         <div class="container px-lg-3">
-          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">Boutique</span></a>
+          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="fw-bold text-uppercase text-dark">La Boutique Beirut</span></a>
             <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto">
@@ -46,17 +52,25 @@ $mysqli->close();
                 <li class="nav-item">
                   <!-- Link--><a class="nav-link active" href="shop.php">Shop</a>
                 </li>
-                <li class="nav-item">
-                  <!-- Link--><a class="nav-link" href="detail.php">Product detail</a>
-                </li>
-                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="index.php">Homepage</a><a class="dropdown-item border-0 transition-link" href="shop.php">Category</a><a class="dropdown-item border-0 transition-link" href="detail.php">Product detail</a><a class="dropdown-item border-0 transition-link" href="cart.php">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.php">Checkout</a></div>
-                </li>
+               
+                
               </ul>
               <ul class="navbar-nav ms-auto">               
-                <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal">(2)</small></a></li>
+              <?php
+              if ($_SESSION["user_id"] != null) {
+                ?>            
+                <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal"><?php echo "(". $count . ")"?></small></a></li>
+                <?php }?>
                 
+                <?php 
+                if ($_SESSION["user_id"] == null) {
+                ?>
                 <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
+                <?php }else{ ?>
+                  <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
+                  <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="signOut.php">Sign Out</a></div>
+                  </li>
+                <?php }?>
               </ul>
             </div>
           </nav>
@@ -73,63 +87,55 @@ $mysqli->close();
                 <h5 class="text-uppercase mb-4">Categories</h5>
                 <div class="py-2 px-4 bg-dark text-white mb-3"><strong class="small text-uppercase fw-bold">Fashion</strong></div>
                 <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                  <li class="mb-2"><a class="reset-anchor" href="#!">T-Shirts</a></li>
-                  <li class="mb-2"><a class="reset-anchor" href="#!">Hoodies</a></li>
-                  <li class="mb-2"><a class="reset-anchor" href="#!">Sweat Pants</a></li>
+                <li class="mb-2"><a class="reset-anchor" href="shop.php">All</a></li>
+                  <li class="mb-2"><a class="reset-anchor" href="shop2.php">T-Shirts</a></li>
+                  <li class="mb-2"><a class="reset-anchor" href="shop3.php">Hoodies</a></li>
+                  <li class="mb-2"><a class="reset-anchor" href="shop4.php">Sweat Pants</a></li>
                 </ul>
-                <div class="py-2 px-4 bg-light mb-3"><strong class="small text-uppercase fw-bold"></strong></div>
-
-                </ul>
-                <div class="py-2 px-4 bg-light mb-3"><strong class="small text-uppercase fw-bold"></strong></div>
+               
                 
-                <div class="price-range pt-4 mb-5">
-                  <div id="range"></div>
-                  <div class="row pt-2">
-                    <div class="col-6"><strong class="small fw-bold text-uppercase">From</strong></div>
-                    <div class="col-6 text-end"><strong class="small fw-bold text-uppercase">To</strong></div>
-                  </div>
-                </div>
-                <h6 class="text-uppercase mb-3">Show only</h6>
+                
+                <h6 class="text-uppercase mb-3"></h6>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="checkbox" id="checkbox_1">
-                  <label class="form-check-label" for="checkbox_1">Returns Accepted</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_1">
+                  <label class="form-check-label" for="checkbox_1"></label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="checkbox" id="checkbox_2">
-                  <label class="form-check-label" for="checkbox_2">Returns Accepted</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_2">
+                  <label class="form-check-label" for="checkbox_2"> </label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="checkbox" id="checkbox_3">
-                  <label class="form-check-label" for="checkbox_3">Completed Items</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_3">
+                  <label class="form-check-label" for="checkbox_3"> </label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="checkbox" id="checkbox_4">
-                  <label class="form-check-label" for="checkbox_4">Sold Items</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_4">
+                  <label class="form-check-label" for="checkbox_4"> </label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="checkbox" id="checkbox_5">
-                  <label class="form-check-label" for="checkbox_5">Deals &amp; Savings</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_5">
+                  <label class="form-check-label" for="checkbox_5">  </label>
                 </div>
                 <div class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="checkbox_6">
-                  <label class="form-check-label" for="checkbox_6">Authorized Seller</label>
+                  <input class="form-check-input" type="hidden" id="checkbox_6">
+                  <label class="form-check-label" for="checkbox_6"> </label>
                 </div>
-                <h6 class="text-uppercase mb-3">Buying format</h6>
+                <h6 class="text-uppercase mb-3"> </h6>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="radio" name="customRadio" id="radio_1">
-                  <label class="form-check-label" for="radio_1">All Listings</label>
-                </div>
-                <div class="form-check mb-1">
-                  <input class="form-check-input" type="radio" name="customRadio" id="radio_2">
-                  <label class="form-check-label" for="radio_2">Best Offer</label>
+                  <input class="form-check-input" type="hidden" name="customRadio" id="radio_1">
+                  <label class="form-check-label" for="radio_1"> </label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="radio" name="customRadio" id="radio_3">
-                  <label class="form-check-label" for="radio_3">Auction</label>
+                  <input class="form-check-input" type="hidden" name="customRadio" id="radio_2">
+                  <label class="form-check-label" for="radio_2"> </label>
                 </div>
                 <div class="form-check mb-1">
-                  <input class="form-check-input" type="radio" name="customRadio" id="radio_4">
-                  <label class="form-check-label" for="radio_4">Buy It Now</label>
+                  <input class="form-check-input" type="hidden" name="customRadio" id="radio_3">
+                  <label class="form-check-label" for="radio_3"></label>
+                </div>
+                <div class="form-check mb-1">
+                  <input class="form-check-input" type="hidden" name="customRadio" id="radio_4">
+                  <label class="form-check-label" for="radio_4">  </label>
                 </div>
               </div>
               <!-- SHOP LISTING-->
