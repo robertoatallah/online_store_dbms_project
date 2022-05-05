@@ -57,19 +57,19 @@ $mysqli->close();
               </ul>
               <ul class="navbar-nav ms-auto">               
               <?php
-              if ($_SESSION["user_id"] != null) {
+              if (isset($_SESSION["user_id"]) ) {
                 ?>            
                 <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal"><?php echo "(". $count . ")"?></small></a></li>
                 <?php }?>
-                
                 <?php 
-                if ($_SESSION["user_id"] == null) {
+                if (isset($_SESSION["user_id"])) {
                 ?>
-                <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
-                <?php }else{ ?>
-                  <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
+                <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
                   <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="signOut.php">Sign Out</a></div>
                   </li>
+                
+                <?php }else{ ?>
+                  <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
                 <?php }?>
               </ul>
             </div>
@@ -160,6 +160,13 @@ $mysqli->close();
                         <div class="product-overlay">
                           <form action="add_to_cart.php" method="POST">
                             <input type="hidden" name="id" value="<?php echo $rows['id'] ;?>">
+                            <label for="cars">Size:</label>
+                              <select id="size" name="size">
+                                <option name="s"value="s">S</option>
+                                <option name="m"value="m">M</option>
+                                <option name="l"value="l">L</option>
+                                <option name="xl"value="xl">XL</option>
+                              </select> 
                           <ul class="mb-0 list-inline">
                           <?php $id = $rows['id'];?>
                             <li class="list-inline-item m-0 p-0"><button type = "submit" class="btn btn-sm btn-dark">Add to Cart

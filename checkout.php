@@ -52,18 +52,19 @@ $count = mysqli_num_rows($result);
               </ul>
               <ul class="navbar-nav ms-auto">               
               <?php
-              if ($_SESSION["user_id"] != null) {
+              if (isset($_SESSION["user_id"]) ) {
                 ?>            
                 <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal"><?php echo "(". $count . ")"?></small></a></li>
                 <?php }?>
                 <?php 
-                if ($_SESSION["user_id"] == null) {
+                if (isset($_SESSION["user_id"])) {
                 ?>
-                <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
-                <?php }else{ ?>
-                  <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
+                <li class="nav-item dropdown"><a class="nav-link droptown-toggle" id="pagesDropdown" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user me-1 text-gray fw-normal"></i><?php echo $_SESSION['user_name'];?></a>
                   <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="signOut.php">Sign Out</a></div>
                   </li>
+                
+                <?php }else{ ?>
+                  <li class="nav-item"><a class="nav-link" href="login.php"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a></li>
                 <?php }?>
               </ul>
             </div>
