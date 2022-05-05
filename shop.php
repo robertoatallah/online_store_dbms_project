@@ -177,7 +177,7 @@ $mysqli->close();
                                       <?php
                                   }
                               ?>
-</select>
+                            </select>
 
                           <ul class="mb-0 list-inline">
                           <?php $id = $rows['id'];?>

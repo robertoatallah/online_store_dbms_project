@@ -160,13 +160,24 @@ $mysqli->close();
                         <div class="product-overlay">
                           <form action="add_to_cart.php" method="POST">
                             <input type="hidden" name="id" value="<?php echo $rows['id'] ;?>">
-                            <label for="cars">Size:</label>
+                            <label for="size">Size:</label>
                               <select id="size" name="size">
                                 <option name="s"value="s">S</option>
                                 <option name="m"value="m">M</option>
                                 <option name="l"value="l">L</option>
                                 <option name="xl"value="xl">XL</option>
                               </select> 
+                              <label for="quantity">Quantity:</label>
+                              <select id="quantity" name="quantity">
+                              <?php
+                                  for ($i=1; $i<=10; $i++)
+                                  {
+                                      ?>
+                                          <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                      <?php
+                                  }
+                              ?>
+                            </select>
                           <ul class="mb-0 list-inline">
                           <?php $id = $rows['id'];?>
                             <li class="list-inline-item m-0 p-0"><button type = "submit" class="btn btn-sm btn-dark">Add to Cart
