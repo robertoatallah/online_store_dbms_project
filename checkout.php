@@ -132,7 +132,7 @@ $count = mysqli_num_rows($result);
         </section>
         <section class="py-5">
           <!-- BILLING ADDRESS-->
-          <h2 class="h5 text-uppercase mb-4">Adress and Billing details</h2>
+          <h2 class="h5 text-uppercase mb-4">Address and Billing details</h2>
           <div class="row">
             <div class="col-lg-8">
               <form method="POST" action="add_address.php">
